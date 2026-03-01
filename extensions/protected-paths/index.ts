@@ -12,8 +12,8 @@ import * as path from "node:path";
 
 export default function (pi: ExtensionAPI) {
   // Configure allowed paths using glob patterns
-  // Default: only files in current folder ("." matches everything under cwd)
-  const allowedPaths: string[] = ["."];
+  // Default: all files under current directory (including dotfiles)
+  const allowedPaths: string[] = ["**"];
 
   pi.on("tool_call", async (event, ctx) => {
     // Handle write and edit tools
@@ -62,11 +62,13 @@ export default function (pi: ExtensionAPI) {
     const cleanRelativePath = relativeToCwd.replace(/^\.\//, "");
     const isAllowed = allowedPaths.some((pattern) => {
       // Match either the full relative path or with **/ prefix for deep matching
+      // dot: true allows matching dotfiles like .git, .env, etc.
+      const options = { dot: true };
       return (
-        picomatch.isMatch(cleanRelativePath, pattern) ||
-        picomatch.isMatch(cleanRelativePath, `**/${pattern}`) ||
-        picomatch.isMatch(cleanRelativePath, `${pattern}/**`) ||
-        picomatch.isMatch(targetPath, pattern)
+        picomatch.isMatch(cleanRelativePath, pattern, options) ||
+        picomatch.isMatch(cleanRelativePath, `**/${pattern}`, options) ||
+        picomatch.isMatch(cleanRelativePath, `${pattern}/**`, options) ||
+        picomatch.isMatch(targetPath, pattern, options)
       );
     });
 
