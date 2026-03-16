@@ -59,13 +59,13 @@ export default function (pi: ExtensionAPI) {
     if (relativeToCwd.startsWith("..") || path.isAbsolute(relativeToCwd)) {
       if (ctx.hasUI) {
         ctx.ui.notify(
-          `Blocked: Path "${targetPath}" is outside project root. Create this file/folder in the current folder instead to proceed.`,
+          `Blocked: Path "${targetPath}" is outside project root. Use current folder instead to proceed.`,
           "warning"
         );
       }
       return {
         block: true,
-        reason: `Path "${targetPath}" is outside the project root. Create this file/folder in the current folder instead to proceed.`,
+        reason: `Path "${targetPath}" is outside the project root. Use current folder instead to proceed.`,
       };
     }
 
