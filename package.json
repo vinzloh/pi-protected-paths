@@ -6,13 +6,16 @@
   ],
   "pi": {
     "extensions": [
-      "./index.ts"
+      "./extensions"
     ]
   },
   "scripts": {},
   "devDependencies": {
-    "@mariozechner/pi-coding-agent": "*",
+    "@mariozechner/pi-coding-agent": "latest",
     "@types/picomatch": "^4.0.2"
+  },
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*"
   },
   "dependencies": {
     "picomatch": "^4.0.2"
